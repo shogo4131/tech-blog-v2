@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TagsTagRouteImport } from './routes/tags/$tag'
 import { Route as ArticleSlugRouteImport } from './routes/article/$slug'
-import { Route as ApiOgRouteImport } from './routes/api/og'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -29,42 +28,33 @@ const ArticleSlugRoute = ArticleSlugRouteImport.update({
   path: '/article/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiOgRoute = ApiOgRouteImport.update({
-  id: '/api/og',
-  path: '/api/og',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/api/og': typeof ApiOgRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/tags/$tag': typeof TagsTagRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/api/og': typeof ApiOgRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/tags/$tag': typeof TagsTagRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/api/og': typeof ApiOgRoute
   '/article/$slug': typeof ArticleSlugRoute
   '/tags/$tag': typeof TagsTagRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/og' | '/article/$slug' | '/tags/$tag'
+  fullPaths: '/' | '/article/$slug' | '/tags/$tag'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/og' | '/article/$slug' | '/tags/$tag'
-  id: '__root__' | '/' | '/api/og' | '/article/$slug' | '/tags/$tag'
+  to: '/' | '/article/$slug' | '/tags/$tag'
+  id: '__root__' | '/' | '/article/$slug' | '/tags/$tag'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  ApiOgRoute: typeof ApiOgRoute
   ArticleSlugRoute: typeof ArticleSlugRoute
   TagsTagRoute: typeof TagsTagRoute
 }
@@ -92,19 +82,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArticleSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/og': {
-      id: '/api/og'
-      path: '/api/og'
-      fullPath: '/api/og'
-      preLoaderRoute: typeof ApiOgRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  ApiOgRoute: ApiOgRoute,
   ArticleSlugRoute: ArticleSlugRoute,
   TagsTagRoute: TagsTagRoute,
 }

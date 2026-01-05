@@ -21,7 +21,7 @@ export const Route = createFileRoute("/tags/$tag")({
 				meta: [{ title: "Tags | Tech Blog" }],
 			};
 		}
-		const ogImageUrl = `${config.baseUrl}/api/og?title=${encodeURIComponent(`#${loaderData.tag}`)}&tags=${loaderData.tag}`;
+		const ogImageUrl = `${config.baseUrl}/ogimage/home.png`;
 		const pageUrl = `${config.baseUrl}/tags/${params.tag}`;
 		return {
 			meta: [

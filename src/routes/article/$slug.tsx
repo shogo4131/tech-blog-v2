@@ -19,7 +19,7 @@ export const Route = createFileRoute("/article/$slug")({
 			};
 		}
 		const { article } = loaderData;
-		const ogImageUrl = `${config.baseUrl}/api/og?title=${encodeURIComponent(article.frontmatter.title)}&date=${article.frontmatter.date}&tags=${article.frontmatter.tags.join(",")}`;
+		const ogImageUrl = `${config.baseUrl}/ogimage/${params.slug}.png`;
 		const pageUrl = `${config.baseUrl}/article/${params.slug}`;
 		return {
 			meta: [

@@ -26,14 +26,14 @@ export const Route = createFileRoute("/")({
 			{ property: "og:url", content: config.baseUrl },
 			{
 				property: "og:image",
-				content: `${config.baseUrl}/api/og?title=Tech%20Blog`,
+				content: `${config.baseUrl}/ogimage/home.png`,
 			},
 			{ property: "og:image:width", content: "1200" },
 			{ property: "og:image:height", content: "630" },
 			{ name: "twitter:card", content: "summary_large_image" },
 			{
 				name: "twitter:image",
-				content: `${config.baseUrl}/api/og?title=Tech%20Blog`,
+				content: `${config.baseUrl}/ogimage/home.png`,
 			},
 		],
 	}),
