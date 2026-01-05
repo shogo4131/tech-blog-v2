@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getAllTags, getArticles } from "@/lib/articles";
+import { config } from "@/lib/config";
 
 export const Route = createFileRoute("/")({
 	loader: () => {
@@ -22,11 +23,18 @@ export const Route = createFileRoute("/")({
 				content: "A tech blog about web development and programming",
 			},
 			{ property: "og:type", content: "website" },
-			{ property: "og:image", content: "/api/og?title=Tech%20Blog" },
+			{ property: "og:url", content: config.baseUrl },
+			{
+				property: "og:image",
+				content: `${config.baseUrl}/api/og?title=Tech%20Blog`,
+			},
 			{ property: "og:image:width", content: "1200" },
 			{ property: "og:image:height", content: "630" },
 			{ name: "twitter:card", content: "summary_large_image" },
-			{ name: "twitter:image", content: "/api/og?title=Tech%20Blog" },
+			{
+				name: "twitter:image",
+				content: `${config.baseUrl}/api/og?title=Tech%20Blog`,
+			},
 		],
 	}),
 	component: HomePage,

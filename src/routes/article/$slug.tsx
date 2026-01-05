@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { TableOfContents } from "@/components/TableOfContents";
 import { getArticleWithHtml } from "@/lib/articles";
+import { config } from "@/lib/config";
 
 export const Route = createFileRoute("/article/$slug")({
 	ssr: false,
@@ -11,14 +12,15 @@ export const Route = createFileRoute("/article/$slug")({
 		}
 		return { article };
 	},
-	head: ({ loaderData }) => {
+	head: ({ loaderData, params }) => {
 		if (!loaderData?.article) {
 			return {
 				meta: [{ title: "Article | Tech Blog" }],
 			};
 		}
 		const { article } = loaderData;
-		const ogImageUrl = `/api/og?title=${encodeURIComponent(article.frontmatter.title)}&date=${article.frontmatter.date}&tags=${article.frontmatter.tags.join(",")}`;
+		const ogImageUrl = `${config.baseUrl}/api/og?title=${encodeURIComponent(article.frontmatter.title)}&date=${article.frontmatter.date}&tags=${article.frontmatter.tags.join(",")}`;
+		const pageUrl = `${config.baseUrl}/article/${params.slug}`;
 		return {
 			meta: [
 				{ title: `${article.frontmatter.title} | Tech Blog` },
@@ -29,6 +31,7 @@ export const Route = createFileRoute("/article/$slug")({
 					content: article.frontmatter.description,
 				},
 				{ property: "og:type", content: "article" },
+				{ property: "og:url", content: pageUrl },
 				{
 					property: "article:published_time",
 					content: article.frontmatter.date,

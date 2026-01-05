@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArticleCard } from "@/components/ArticleCard";
 import { getAllTags, getArticlesByTag } from "@/lib/articles";
+import { config } from "@/lib/config";
 
 export const Route = createFileRoute("/tags/$tag")({
 	ssr: false,
@@ -14,13 +15,14 @@ export const Route = createFileRoute("/tags/$tag")({
 
 		return { articles, tag: params.tag, allTags };
 	},
-	head: ({ loaderData }) => {
+	head: ({ loaderData, params }) => {
 		if (!loaderData?.tag) {
 			return {
 				meta: [{ title: "Tags | Tech Blog" }],
 			};
 		}
-		const ogImageUrl = `/api/og?title=${encodeURIComponent(`#${loaderData.tag}`)}&tags=${loaderData.tag}`;
+		const ogImageUrl = `${config.baseUrl}/api/og?title=${encodeURIComponent(`#${loaderData.tag}`)}&tags=${loaderData.tag}`;
+		const pageUrl = `${config.baseUrl}/tags/${params.tag}`;
 		return {
 			meta: [
 				{ title: `${loaderData.tag} | Tech Blog` },
@@ -34,6 +36,7 @@ export const Route = createFileRoute("/tags/$tag")({
 					content: `Articles tagged with ${loaderData.tag}`,
 				},
 				{ property: "og:type", content: "website" },
+				{ property: "og:url", content: pageUrl },
 				{ property: "og:image", content: ogImageUrl },
 				{ property: "og:image:width", content: "1200" },
 				{ property: "og:image:height", content: "630" },
