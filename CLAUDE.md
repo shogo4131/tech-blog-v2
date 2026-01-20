@@ -20,7 +20,7 @@ pnpm deploy       # ビルドしてCloudflareにデプロイ
 
 ## アーキテクチャ
 
-### 記事システム
+### テックブログ
 
 - Markdownファイルは`src/article/YYYY/YYYYMM/`にYAMLフロントマター付きで保存
 - フロントマターのフィールド: `title`, `description`, `date`, `tags[]`, `published`（オプション、デフォルトはtrue）
