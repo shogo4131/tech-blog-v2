@@ -44,6 +44,7 @@ function RootLayout() {
 			<body className="bg-black text-white antialiased">
 				<Outlet />
 				<Scripts />
+				<script async src="https://platform.twitter.com/widgets.js" />
 			</body>
 		</html>
 	);

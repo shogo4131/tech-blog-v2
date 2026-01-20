@@ -1,4 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { AskAIDropdown } from "@/components/AskAIDropdown";
 import { TableOfContents } from "@/components/TableOfContents";
 import { getArticleWithHtml } from "@/lib/articles";
 import { config } from "@/lib/config";
@@ -66,6 +68,22 @@ function NotFoundPage() {
 
 function ArticlePage() {
 	const { article } = Route.useLoaderData();
+	const params = Route.useParams();
+
+	const shareUrl = `${config.baseUrl}/article/${params.slug}`;
+	const shareText = encodeURIComponent(article.frontmatter.title);
+	const twitterShareUrl = `https://twitter.com/intent/tweet?text=${shareText}&url=${encodeURIComponent(shareUrl)}`;
+
+	// NOTE: Twitter埋め込みウィジェットを読み込み・更新する
+	// biome-ignore lint/correctness/useExhaustiveDependencies: article.html変更時にウィジェットを再描画するため意図的に依存配列に含める
+	useEffect(() => {
+		const twttr = (window as { twttr?: { widgets?: { load?: () => void } } })
+			.twttr;
+
+		if (twttr?.widgets?.load) {
+			twttr.widgets.load();
+		}
+	}, [article.html]);
 
 	return (
 		<div className="min-h-screen">
@@ -121,6 +139,21 @@ function ArticlePage() {
 							// biome-ignore lint/security/noDangerouslySetInnerHtml: Markdown content is sanitized
 							dangerouslySetInnerHTML={{ __html: article.html }}
 						/>
+
+						<div className="mt-12 pt-8 border-t border-gray-800">
+							<p className="text-gray-400 text-sm mb-4">この記事をシェア</p>
+							<div className="flex flex-wrap items-center gap-3">
+								<a
+									href={twitterShareUrl}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label="Xでシェア"
+									className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 text-gray-300 rounded-full hover:bg-[#1DA1F2] hover:text-white transition-colors"
+								>
+									<span>Xでシェア</span>
+								</a>
+							</div>
+						</div>
 					</article>
 
 					<aside className="hidden lg:block">
@@ -136,6 +169,8 @@ function ArticlePage() {
 					</p>
 				</div>
 			</footer>
+
+			<AskAIDropdown articleUrl={shareUrl} />
 		</div>
 	);
 }

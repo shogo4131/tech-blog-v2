@@ -128,6 +128,11 @@ export async function parseMarkdown(content: string): Promise<{
 	html: string;
 	headings: Heading[];
 }> {
+	const cleanedContent = content.replace(
+		/<script[^>]*src=["']https:\/\/platform\.twitter\.com\/widgets\.js["'][^>]*><\/script>/gi,
+		"",
+	);
+
 	const hl = await getHighlighter();
 	let headings: Heading[] = [];
 
@@ -146,7 +151,7 @@ export async function parseMarkdown(content: string): Promise<{
 		})
 		.use(rehypeStringify, { allowDangerousHtml: true });
 
-	const result = await processor.process(content);
+	const result = await processor.process(cleanedContent);
 
 	return {
 		html: String(result),
