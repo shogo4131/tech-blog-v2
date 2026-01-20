@@ -6,7 +6,6 @@ import { getArticleWithHtml } from "@/lib/articles";
 import { config } from "@/lib/config";
 
 export const Route = createFileRoute("/article/$slug")({
-	ssr: false,
 	loader: async ({ params }) => {
 		const article = await getArticleWithHtml(params.slug);
 		if (!article) {
