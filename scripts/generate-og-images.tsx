@@ -19,6 +19,12 @@ const PROJECT_ROOT = process.cwd();
 const ARTICLE_DIR = join(PROJECT_ROOT, "src/article");
 const OUTPUT_DIR = join(PROJECT_ROOT, "public/ogimage");
 const FONT_PATH = join(PROJECT_ROOT, "public/fonts/NotoSansCJKjp-Bold.otf");
+const ICON_PATH = join(PROJECT_ROOT, "public/icon.png");
+
+function getIconBase64(): string {
+	const iconBuffer = readFileSync(ICON_PATH);
+	return `data:image/png;base64,${iconBuffer.toString("base64")}`;
+}
 
 interface ArticleFrontmatter {
 	title: string;
@@ -139,7 +145,11 @@ function getArticles(): Article[] {
 	return articles;
 }
 
-function OgImageTemplate({ title, date }: { title: string; date?: string }) {
+function OgImageTemplate({
+	title,
+	date,
+	iconBase64,
+}: { title: string; date?: string; iconBase64: string }) {
 	return (
 		<div
 			tw="flex flex-col justify-center items-start w-full h-full p-16"
@@ -152,8 +162,15 @@ function OgImageTemplate({ title, date }: { title: string; date?: string }) {
 				{title}
 			</div>
 			{date && <div tw="flex mt-6 text-2xl text-gray-400">{date}</div>}
-			<div tw="flex absolute bottom-10 right-16 text-3xl text-cyan-400 font-bold">
-				Tech Blog
+			<div tw="flex absolute bottom-10 left-16 items-center">
+				<img
+					src={iconBase64}
+					width={48}
+					height={48}
+					tw="mr-4"
+					style={{ borderRadius: "50%" }}
+				/>
+				<div tw="text-2xl text-gray-300">Shogo Fukami</div>
 			</div>
 		</div>
 	);
@@ -163,21 +180,26 @@ async function generateOgImage(
 	outputPath: string,
 	title: string,
 	date?: string,
+	iconBase64?: string,
 ): Promise<void> {
 	const font = readFileSync(FONT_PATH);
+	const icon = iconBase64 ?? getIconBase64();
 
-	const svg = await satori(<OgImageTemplate title={title} date={date} />, {
-		width: 1200,
-		height: 630,
-		fonts: [
-			{
-				name: "Noto Sans CJK JP",
-				data: font,
-				weight: 700,
-				style: "normal",
-			},
-		],
-	});
+	const svg = await satori(
+		<OgImageTemplate title={title} date={date} iconBase64={icon} />,
+		{
+			width: 1200,
+			height: 630,
+			fonts: [
+				{
+					name: "Noto Sans CJK JP",
+					data: font,
+					weight: 700,
+					style: "normal",
+				},
+			],
+		},
+	);
 
 	const resvg = new Resvg(svg, {
 		fitTo: { mode: "width", value: 1200 },
