@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArticleCard } from "@/components/ArticleCard";
+import { Header } from "@/components/Header";
 import { getAllTags, getArticles } from "@/lib/articles";
 import { config } from "@/lib/config";
 
@@ -45,14 +46,10 @@ function HomePage() {
 
 	return (
 		<div className="min-h-screen">
-			<header className="border-b border-gray-800">
-				<div className="max-w-6xl mx-auto px-6 py-8">
-					<h1 className="text-3xl font-bold text-white">Tech Blog</h1>
-					<p className="text-gray-400 mt-2">
-						Web development and programming insights
-					</p>
-				</div>
-			</header>
+			<Header
+				title="Tech Blog"
+				subtitle="Web development and programming insights"
+			/>
 
 			<main className="max-w-6xl mx-auto px-6 py-12">
 				<div className="lg:grid lg:grid-cols-4 lg:gap-12">
