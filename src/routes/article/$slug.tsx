@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { AskAIDropdown } from "@/components/AskAIDropdown";
+import { Header } from "@/components/Header";
 import { TableOfContents } from "@/components/TableOfContents";
 import { getArticleWithHtml } from "@/lib/articles";
 import { config } from "@/lib/config";
@@ -86,16 +87,7 @@ function ArticlePage() {
 
 	return (
 		<div className="min-h-screen">
-			<header className="border-b border-gray-800">
-				<div className="max-w-6xl mx-auto px-6 py-4">
-					<Link
-						to="/"
-						className="text-gray-400 hover:text-white transition-colors"
-					>
-						&larr; Back to Home
-					</Link>
-				</div>
-			</header>
+			<Header showBackLink />
 
 			<main className="max-w-6xl mx-auto px-6 py-12">
 				<div className="lg:grid lg:grid-cols-4 lg:gap-12">

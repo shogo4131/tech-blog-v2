@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArticleCard } from "@/components/ArticleCard";
+import { Header } from "@/components/Header";
 import { getAllTags, getArticlesByTag } from "@/lib/articles";
 import { config } from "@/lib/config";
 
@@ -68,23 +69,16 @@ function TagPage() {
 
 	return (
 		<div className="min-h-screen">
-			<header className="border-b border-gray-800">
-				<div className="max-w-6xl mx-auto px-6 py-8">
-					<Link
-						to="/"
-						className="text-gray-400 hover:text-white transition-colors text-sm"
-					>
-						&larr; Back to Home
-					</Link>
-					<h1 className="text-3xl font-bold text-white mt-4">
+			<Header
+				showBackLink
+				title={
+					<>
 						<span className="text-gray-400">#</span>
 						{tag}
-					</h1>
-					<p className="text-gray-400 mt-2">
-						{articles.length} article{articles.length !== 1 ? "s" : ""} found
-					</p>
-				</div>
-			</header>
+					</>
+				}
+				subtitle={`${articles.length} article${articles.length !== 1 ? "s" : ""} found`}
+			/>
 
 			<main className="max-w-6xl mx-auto px-6 py-12">
 				<div className="lg:grid lg:grid-cols-4 lg:gap-12">
